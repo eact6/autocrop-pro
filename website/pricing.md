@@ -4,8 +4,8 @@
 
 - **Price:** $0 / forever
 - **License:** MIT — use commercially, modify, fork, redistribute
-- **Includes:** Full app, batch crop, live preview, parallel processing, output gallery
-- **Limits:** None on file count (hardware-dependent; tested with 500+ files per batch)
+- **Includes:** Full Windows app, in-browser cropper, batch crop, live preview, parallel processing, output gallery
+- **Limits:** None on file count in the desktop app (hardware-dependent; tested with 500+ files per batch). The browser cropper is best for smaller sets and may hit memory limits on huge videos.
 - **Support:** Community via GitHub Issues
 
 ## Requirements (no extra cost)
@@ -13,6 +13,12 @@
 - Windows 10 or 11
 - WebView2 Runtime (usually preinstalled on Windows 11)
 - FFmpeg on PATH — **video only** (free, separate install)
+
+## Web cropper (also free)
+
+https://eact6.github.io/autocrop-pro/cropper/
+
+Runs entirely in the browser tab. No account. Files are not uploaded to AutoCrop Pro. Use the Windows app for huge batches, TIFF, and unusual video containers.
 
 ## Download
 

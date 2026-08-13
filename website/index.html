@@ -14,7 +14,7 @@
   </script>
 
   <title>AutoCrop Pro Batch Crop Black Borders Offline (Free, Open Source)</title>
-  <meta name="description" content="Batch crop letterboxes and black borders from 500+ images and videos on Windows. 100% offline, open source (MIT), live preview. Free — no cloud uploads.">
+  <meta name="description" content="Batch crop letterboxes from images and videos. Use the free in-browser cropper (files stay in the tab) or the Windows app for 500+ files. Open source, no cloud uploads.">
   <meta name="author" content="AutoCrop Pro">
   <meta name="application-name" content="AutoCrop Pro">
 
@@ -26,14 +26,14 @@
   <meta property="og:site_name" content="AutoCrop Pro">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="AutoCrop Pro — Batch Crop Black Borders Offline (Free, Open Source)">
-  <meta property="og:description" content="Batch crop letterboxes from images and videos locally on Windows. Rust parallel processing, live preview, zero uploads. Free and open source.">
+  <meta property="og:description" content="Crop letterboxes in your browser or on Windows. Files never leave your device. Rust desktop app plus a client-side web cropper. Free and open source.">
   <meta property="og:url" content="https://eact6.github.io/autocrop-pro/">
   <meta property="og:image" content="https://eact6.github.io/autocrop-pro/logo-app.png">
   <meta property="og:image:alt" content="AutoCrop Pro app icon — batch crop black borders offline">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AutoCrop Pro — Batch Crop Black Borders Offline">
-  <meta name="twitter:description" content="Free Windows app to batch crop letterboxes from images and videos. 100% offline. Open source.">
+  <meta name="twitter:description" content="Crop letterboxes in your browser or on Windows. Files never leave your device. Free and open source.">
   <meta name="twitter:image" content="https://eact6.github.io/autocrop-pro/logo-app.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,7 +58,7 @@
         "@id": "https://eact6.github.io/autocrop-pro/#website",
         "url": "https://eact6.github.io/autocrop-pro/",
         "name": "AutoCrop Pro",
-        "description": "Free offline Windows app for batch cropping black borders and letterboxes from images and videos.",
+        "description": "Free offline Windows app and in-browser cropper for batch cropping black borders and letterboxes from images and videos.",
         "publisher": { "@id": "https://eact6.github.io/autocrop-pro/#organization" },
         "inLanguage": "en-US"
       },
@@ -77,13 +77,27 @@
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock"
         },
-        "description": "A native Windows desktop app that automatically detects and crops black borders, letterboxes, and pillarboxes from images and videos in batch, using Rust parallel processing and FFmpeg cropdetect.",
+        "description": "A native Windows desktop app and a matching in-browser cropper that automatically detect and crop black borders, letterboxes, and pillarboxes from images and videos. The app uses Rust parallel processing and FFmpeg cropdetect; the web tool runs entirely in the tab.",
         "softwareVersion": "0.1.4",
         "license": "https://opensource.org/licenses/MIT",
         "downloadUrl": "https://github.com/eact6/autocrop-pro/releases",
-        "featureList": "Batch crop, offline processing, live preview, tolerance slider, parallel Rust backend, FFmpeg cropdetect for video",
+        "featureList": "Batch crop, offline processing, in-browser cropper, live preview, tolerance slider, parallel Rust backend, FFmpeg cropdetect for video",
         "requirements": "WebView2 Runtime; FFmpeg on PATH for video support",
         "author": { "@id": "https://eact6.github.io/autocrop-pro/#organization" }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://eact6.github.io/autocrop-pro/cropper/#app",
+        "name": "AutoCrop Pro Web Cropper",
+        "url": "https://eact6.github.io/autocrop-pro/cropper/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern browser with Canvas support",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "isAccessibleForFree": true,
+        "license": "https://opensource.org/licenses/MIT",
+        "description": "Client-side browser tool that crops black borders and letterboxes from images and videos. Files never leave the tab.",
+        "publisher": { "@id": "https://eact6.github.io/autocrop-pro/#organization" }
       },
       {
         "@type": "HowTo",
@@ -118,7 +132,7 @@
             "name": "What is AutoCrop Pro?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "AutoCrop Pro is a free, open-source Windows desktop app that automatically detects and removes black borders, letterboxes, and pillarboxes from images and videos in batch. It runs 100% offline using a Rust parallel backend and FFmpeg cropdetect for video."
+              "text": "AutoCrop Pro is a free, open-source tool that automatically detects and removes black borders, letterboxes, and pillarboxes from images and videos. Use the in-browser cropper for a few files, or the Windows desktop app for huge offline batches."
             }
           },
           {
@@ -126,7 +140,7 @@
             "name": "Does AutoCrop Pro need an internet connection?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. It is a native Tauri app that runs entirely on your PC. No files, telemetry, or tracking leaves your machine."
+              "text": "The Windows app is a native Tauri program that runs entirely on your PC. The website cropper runs in your tab — files are not uploaded to AutoCrop Pro. Video cropping in the browser loads a local FFmpeg engine from a CDN once."
             }
           },
           {
@@ -134,7 +148,7 @@
             "name": "How does edge detection work?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "For images, the Rust backend builds per-row and per-column brightness histograms and sweeps inward from each edge. For videos, it runs FFmpeg cropdetect on 30 sample frames and parses the optimal crop region."
+              "text": "For images, AutoCrop Pro builds per-row and per-column brightness histograms and sweeps inward from each edge. The Windows app uses FFmpeg cropdetect on 30 sample frames for video. The browser cropper uses the same histogram on sampled frames, then ffmpeg.wasm to encode."
             }
           },
           {
@@ -142,7 +156,7 @@
             "name": "Is FFmpeg required?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Only for video. Install FFmpeg and add it to your Windows PATH. Image cropping works immediately with no extra dependencies."
+              "text": "Only for video in the Windows app: install FFmpeg and add it to your PATH. Image cropping in the app needs no extra dependencies. The browser cropper loads an in-tab FFmpeg engine for video — no PATH install."
             }
           },
           {
@@ -150,7 +164,7 @@
             "name": "Where do cropped files go?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Cropped files save to %USERPROFILE%\\Documents\\AutoCrop_Output\\ as {original}_cropped.{ext}. Source files are never modified unless you enable Delete Originals."
+              "text": "The Windows app saves to %USERPROFILE%\\Documents\\AutoCrop_Output\\ as {original}_cropped.{ext}. The browser cropper downloads files to your Downloads folder. Source files are never modified unless you enable Delete Originals in the desktop app."
             }
           },
           {
@@ -158,7 +172,7 @@
             "name": "What file formats does AutoCrop Pro support?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Images: JPG, PNG, WEBP, BMP, GIF, TIFF. Videos: MP4, MOV, MKV, AVI, WEBM, FLV. Video processing requires FFmpeg on your PATH."
+              "text": "Images: JPG, PNG, WEBP, BMP, GIF, TIFF (TIFF is desktop-only). Videos: MP4, MOV, MKV, AVI, WEBM, FLV. The browser tool works best with JPG/PNG/WEBP/GIF/BMP and MP4/MOV/WEBM. Large or unusual videos should use the Windows app."
             }
           },
           {
@@ -166,7 +180,7 @@
             "name": "How is AutoCrop Pro different from FFmpeg cropdetect scripts?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "AutoCrop Pro wraps FFmpeg cropdetect and Rust edge detection in a visual interface with live preview, batch queue, and parallel processing. You avoid writing one-off shell scripts and see exactly what will be cropped before processing hundreds of files."
+              "text": "AutoCrop Pro wraps FFmpeg cropdetect and histogram edge detection in a visual interface with live preview, batch queue, and parallel processing on Windows. You avoid writing one-off shell scripts and see exactly what will be cropped before processing hundreds of files."
             }
           },
           {
@@ -174,7 +188,23 @@
             "name": "macOS or Linux support?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The Rust core is cross-platform. Current installers target Windows 10/11 (MSI and NSIS). macOS and Linux packages are planned."
+              "text": "The in-browser cropper works on any modern desktop browser, including macOS and Linux. The native installer currently targets Windows 10/11 (MSI and NSIS). Native macOS and Linux packages are planned."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do files get uploaded when I crop on the website?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The web cropper processes files in your browser tab. They are not sent to AutoCrop Pro servers. Video cropping downloads a local FFmpeg WebAssembly engine once from a public CDN."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should I use the Windows app instead of the browser?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the browser for a handful of images or short videos. Use the Windows app for 500+ files, TIFF, WMV/AVI/MKV, huge videos, custom output folders, and delete-originals. The app uses parallel Rust and system FFmpeg."
             }
           }
         ]
@@ -198,7 +228,7 @@
       <nav class="nav-desktop" aria-label="Main navigation">
         <a href="#features">Features</a>
         <a href="#how-it-works">How it works</a>
-        <a href="#simulator">Try it</a>
+        <a href="cropper/">Try it</a>
         <a href="#compare-tools">Compare</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -223,7 +253,7 @@
   <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation" hidden>
     <a href="#features">Features</a>
     <a href="#how-it-works">How it works</a>
-    <a href="#simulator">Try it</a>
+    <a href="cropper/">Try it</a>
     <a href="#compare-tools">Compare</a>
     <a href="#faq">FAQ</a>
     <a href="#download" class="btn btn-primary">Download Free</a>
@@ -236,23 +266,25 @@
       <div class="container hero-content">
         <div class="hero-text reveal">
           <span class="eyebrow eyebrow-oss">Open Source · MIT · Free Forever</span>
-          <h1>Strip letterboxes from 500 files — <em>without Premiere, uploads, or FFmpeg scripts</em></h1>
-          <p class="hero-lead"><strong>AutoCrop Pro</strong> is a free Windows app that removes letterboxes, pillarboxes, and black bars from hundreds of images and videos in one run. Drag a folder, preview the crop, and process in parallel on your CPU — files never leave your hard drive.</p>
+          <h1>Strip letterboxes from 500 files — <em>without Premiere, cloud uploads, or FFmpeg scripts</em></h1>
+          <p class="hero-lead"><strong>AutoCrop Pro</strong> removes letterboxes, pillarboxes, and black bars from images and videos. Crop a few files in your browser, or download the Windows app for huge offline batches — files never go to our servers.</p>
           <ul class="hero-checklist">
-            <li>Batch-process hundreds of images &amp; videos in parallel on your CPU</li>
-            <li>100% offline — zero cloud uploads, zero telemetry</li>
+            <li>In-browser cropper — files stay in this tab, no account</li>
+            <li>Windows app for 500+ files, parallel Rust, custom output folders</li>
             <li>Live crop overlay with a single tolerance slider</li>
           </ul>
           <div class="hero-cta">
-            <a href="https://github.com/eact6/autocrop-pro/releases" class="btn btn-primary btn-lg" id="btn-download-hero">
-              Download for Windows — Free
+            <a href="cropper/" class="btn btn-primary btn-lg" id="btn-try-simulator">
+              Crop in your browser
               <span class="btn-icon-wrap" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
               </span>
             </a>
-            <a href="#simulator" class="btn btn-ghost btn-lg" id="btn-try-simulator">Try the crop simulator</a>
+            <a href="https://github.com/eact6/autocrop-pro/releases" class="btn btn-ghost btn-lg" id="btn-download-hero">
+              Download for Windows
+            </a>
           </div>
-          <p class="hero-note">No account · No subscription · FFmpeg required for video only</p>
+          <p class="hero-note">No account · No subscription · Files never uploaded to AutoCrop Pro</p>
         </div>
         <div class="hero-visual reveal reveal-delay-2">
           <div class="bezel-outer">
@@ -336,8 +368,8 @@
     <section class="section definition-section" id="what-is-autocrop">
       <div class="container narrow">
         <h2>What is AutoCrop Pro?</h2>
-        <p class="definition-lead">AutoCrop Pro is a free, open-source Windows desktop app that automatically detects and removes black borders, letterboxes, and pillarboxes from images and videos in batch. It runs <strong>100% offline</strong> on your PC using a Rust parallel backend (Rayon) for images and FFmpeg <code>cropdetect</code> on 30 sample frames for video — with a live preview overlay and a single tolerance slider.</p>
-        <p class="definition-meta">Last updated: June 9, 2026 · MIT License · <a href="https://github.com/eact6/autocrop-pro">Source on GitHub</a></p>
+        <p class="definition-lead">AutoCrop Pro automatically detects and removes black borders, letterboxes, and pillarboxes from images and videos. Crop a handful of files <a href="cropper/" class="sim-cta-link">in your browser</a> (nothing is uploaded to our servers), or use the free Windows app for 500+ file batches with a Rust parallel backend and FFmpeg <code>cropdetect</code>.</p>
+        <p class="definition-meta">Last updated: August 13, 2026 · MIT License · <a href="https://github.com/eact6/autocrop-pro">Source on GitHub</a></p>
       </div>
     </section>
 
@@ -386,8 +418,8 @@
               </div>
             </header>
             <h3>The upload you can't afford</h3>
-            <blockquote class="pain-quote">"My client's NDA footage is not going on some random website."</blockquote>
-            <p class="pain-body">Online croppers want gigabytes uploaded over Wi-Fi. Slow, lossy, and a security nightmare for sensitive media. AutoCrop Pro never touches the internet.</p>
+            <blockquote class="pain-quote">"My client's NDA footage is not going to a cloud cropper."</blockquote>
+            <p class="pain-body">Cloud croppers want gigabytes uploaded over Wi-Fi. Slow, lossy, and a security nightmare for sensitive media. AutoCrop Pro crops in your browser tab or on your PC — files never go to our servers.</p>
             <footer class="pain-stat">
               <div class="pain-stat-line">
                 <span class="pain-stat-item"><strong>0 bytes</strong><span class="pain-stat-label">uploaded</span></span>
@@ -534,6 +566,7 @@
         <div class="section-header reveal">
           <span class="eyebrow">Workflow</span>
           <h2>Three steps. No learning curve.</h2>
+          <p class="section-lead">Same flow in the <a href="cropper/" class="sim-cta-link">browser cropper</a> or the Windows app. The app is built for hundreds of files at once.</p>
         </div>
         <div class="steps-track" id="steps-track">
           <article class="step-card reveal" data-step="1">
@@ -580,7 +613,7 @@
           </div>
           <div class="audience-card reveal reveal-delay-3">
             <h3>Agencies with NDA clients</h3>
-            <p>Sensitive footage stays on-premise. No third-party uploads, no compliance headaches.</p>
+            <p>Sensitive footage stays on your machine. Crop in the tab or in the Windows app — no third-party cloud uploads.</p>
           </div>
         </div>
       </div>
@@ -593,6 +626,7 @@
           <span class="eyebrow">Interactive demo</span>
           <h2>Try the crop tolerance slider</h2>
           <p class="section-lead">Drag the slider to see how AutoCrop Pro sweeps pixel histograms inward from each edge. Below 13% misses borders. Above 45% clips into your content.</p>
+          <p class="section-lead"><a href="cropper/" class="sim-cta-link">Crop your own files in the browser</a> — no install, files stay in this tab.</p>
         </div>
         <div class="simulator-visual reveal reveal-delay-2">
           <div class="app-window">
@@ -745,11 +779,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">AutoCrop Pro</th>
+              <tr class="ours">
+                <th scope="row">AutoCrop Pro (Windows)</th>
                 <td>500+ files, parallel Rust</td>
-                <td>100% offline</td>
+                <td>100% offline on your PC</td>
                 <td>Yes — tolerance slider</td>
+                <td>Free (MIT)</td>
+              </tr>
+              <tr class="ours">
+                <th scope="row">AutoCrop Pro (Web)</th>
+                <td>A handful of files, in-tab</td>
+                <td>No upload — stays in the browser</td>
+                <td>Yes — real crop overlay</td>
                 <td>Free (MIT)</td>
               </tr>
               <tr>
@@ -760,7 +801,7 @@
                 <td>Subscription</td>
               </tr>
               <tr>
-                <th scope="row">Online crop tools</th>
+                <th scope="row">Cloud crop tools</th>
                 <td>Upload-limited</td>
                 <td>Cloud upload required</td>
                 <td>Varies</td>
@@ -793,7 +834,7 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-0">
-              <p>AutoCrop Pro is a free, open-source Windows desktop app that automatically detects and removes black borders, letterboxes, and pillarboxes from images and videos in batch. It runs 100% offline using a Rust parallel backend and FFmpeg cropdetect for video.</p>
+              <p>AutoCrop Pro is a free, open-source tool that automatically detects and removes black borders, letterboxes, and pillarboxes from images and videos. Use the <a href="cropper/">in-browser cropper</a> for a few files, or the Windows desktop app for huge offline batches.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -802,7 +843,7 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-1">
-              <p>No. It's a native Tauri app that runs entirely on your PC. No files, telemetry, or tracking leaves your machine.</p>
+              <p>The Windows app is a native Tauri program that runs entirely on your PC — no files, telemetry, or tracking leave your machine. The website cropper also never uploads your media to AutoCrop Pro; it runs in this tab. Video in the browser loads a local FFmpeg engine from a CDN once.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -811,7 +852,7 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-2">
-              <p>For images, the Rust backend builds per-row and per-column brightness histograms and sweeps inward from each edge. For videos, it runs FFmpeg <code>cropdetect</code> on 30 sample frames and parses the optimal crop region.</p>
+              <p>For images, AutoCrop Pro builds per-row and per-column brightness histograms and sweeps inward from each edge. The Windows app uses FFmpeg <code>cropdetect</code> on 30 sample frames for video. The browser cropper uses the same histogram on sampled frames, then <code>ffmpeg.wasm</code> to encode.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -820,7 +861,7 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-3">
-              <p>Only for video. Install FFmpeg and add it to your Windows PATH. Image cropping works immediately with no extra dependencies.</p>
+              <p>Only for video in the <strong>Windows app</strong>: install FFmpeg and add it to your PATH. Image cropping in the app needs no extra dependencies. The <a href="cropper/">browser cropper</a> loads an in-tab FFmpeg engine for video — no PATH install.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -829,7 +870,7 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-4">
-              <p><code>%USERPROFILE%\Documents\AutoCrop_Output\</code> — named <code>{original}_cropped.{ext}</code>. Source files are never modified unless you enable Delete Originals.</p>
+              <p>The Windows app saves to <code>%USERPROFILE%\Documents\AutoCrop_Output\</code> — named <code>{original}_cropped.{ext}</code>. The browser cropper downloads to your Downloads folder. Source files are never modified unless you enable Delete Originals in the desktop app.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -838,7 +879,7 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-5">
-              <p><strong>Images:</strong> JPG, PNG, WEBP, BMP, GIF, TIFF. <strong>Videos:</strong> MP4, MOV, MKV, AVI, WEBM, FLV. Video processing requires FFmpeg installed and on your Windows PATH.</p>
+              <p><strong>Images:</strong> JPG, PNG, WEBP, BMP, GIF, TIFF (TIFF is desktop-only). <strong>Videos:</strong> MP4, MOV, MKV, AVI, WEBM, FLV. The browser tool works best with common web formats (JPG/PNG/WEBP/MP4/WEBM). Huge or unusual videos should use the Windows app with FFmpeg on PATH.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -856,7 +897,25 @@
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-panel" id="faq-7">
-              <p>The Rust core is cross-platform. Current installers target Windows 10/11 (MSI + NSIS). macOS and Linux packages are planned.</p>
+              <p>The in-browser cropper works on any modern desktop browser, including macOS and Linux. Native installers currently target Windows 10/11 (MSI + NSIS). macOS and Linux packages are planned.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-8">
+              Do files get uploaded when I crop on the website?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-8">
+              <p>No. The <a href="cropper/">web cropper</a> processes files in your browser tab. They are not sent to AutoCrop Pro servers. Video cropping downloads a local FFmpeg WebAssembly engine once from a public CDN (~25MB, cached after that).</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-9">
+              When should I use the Windows app instead of the browser?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-9">
+              <p>Use the browser for a handful of images or short videos. Use the Windows app for 500+ files, TIFF, WMV/AVI/MKV, huge videos, custom output folders, and delete-originals. The app uses parallel Rust and system FFmpeg.</p>
             </div>
           </div>
         </div>
@@ -869,17 +928,19 @@
         <div class="bezel-outer reveal">
           <div class="bezel-inner cta-content">
             <h2>Your folder of letterboxed clips<br>shouldn't own your afternoon</h2>
-            <p>Download AutoCrop Pro. Drop your files. Get back to actual creative work.</p>
+            <p>Crop a few files in your browser, or download AutoCrop Pro for Windows. Drop your files. Get back to actual creative work.</p>
             <div class="cta-buttons">
-              <a href="https://github.com/eact6/autocrop-pro/releases" class="btn btn-primary btn-lg" id="btn-download-footer">
-                Download — Free &amp; Open Source
+              <a href="cropper/" class="btn btn-primary btn-lg">
+                Crop in your browser
                 <span class="btn-icon-wrap" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
                 </span>
               </a>
-              <a href="https://github.com/eact6/autocrop-pro" class="btn btn-ghost btn-lg" id="btn-github">Star on GitHub</a>
+              <a href="https://github.com/eact6/autocrop-pro/releases" class="btn btn-ghost btn-lg" id="btn-download-footer">
+                Download the Windows app
+              </a>
             </div>
-            <p class="cta-note">No account. No subscription. MIT license. · Windows 10/11 · WebView2 required</p>
+            <p class="cta-note">No account. No subscription. MIT license. · Browser cropper on any OS · Native app for Windows 10/11</p>
           </div>
         </div>
       </div>
@@ -894,11 +955,12 @@
           <img src="logo-app.png" alt="AutoCrop Pro logo" class="logo-mark" width="32" height="32">
           <span class="logo-wordmark">AutoCrop <span class="logo-pro">Pro</span></span>
         </div>
-        <p>Open-source desktop app for batch-cropping black borders from images and videos. Local, fast, and free forever.</p>
+        <p>Open-source cropper for black borders on images and videos. Use it in the browser or as a Windows app. Local, fast, and free forever.</p>
       </div>
       <nav class="footer-nav" aria-label="Footer navigation">
         <h4>Product</h4>
         <a href="#features">Features</a>
+        <a href="cropper/">Crop in browser</a>
         <a href="#how-it-works">How it works</a>
         <a href="#simulator">Crop simulator</a>
         <a href="#compare-tools">Compare</a>
@@ -914,8 +976,8 @@
       </nav>
     </div>
     <div class="container footer-bottom">
-      <span>© 2026 AutoCrop Pro · Updated June 9, 2026</span>
-      <span class="footer-badge">MIT · Open Source · Rust + Tauri</span>
+      <span>© 2026 AutoCrop Pro · Updated August 13, 2026</span>
+      <span class="footer-badge">MIT · Open Source · Web + Rust/Tauri</span>
     </div>
   </footer>
 

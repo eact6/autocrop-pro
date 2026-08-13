@@ -326,7 +326,8 @@ html:not(.dark) .icon-moon { display: none; }
   transition: color 0.2s, background 0.2s;
 }
 
-.nav-desktop a:hover {
+.nav-desktop a:hover,
+.nav-desktop a[aria-current="page"] {
   color: var(--text);
   background: var(--bg-card);
 }
@@ -1431,6 +1432,13 @@ h1 em, h2 em {
 
 .sim-hint { font-size: 0.75rem; color: var(--text-dim); }
 
+.sim-cta-link {
+  color: var(--pink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* ── Batch simulator ─────────────────────────────────────────── */
 .batch-section { background: var(--bg-card); }
 
@@ -1620,12 +1628,12 @@ h1 em, h2 em {
 
 .compare-table tbody th { font-weight: 700; white-space: nowrap; }
 
-.compare-table tbody tr:first-child th,
-.compare-table tbody tr:first-child td {
+.compare-table tbody tr.ours th,
+.compare-table tbody tr.ours td {
   background: var(--accent-dim);
 }
 
-.compare-table tbody tr:first-child th { color: var(--teal); }
+.compare-table tbody tr.ours th { color: var(--teal); }
 
 .compare-table tbody tr:last-child th,
 .compare-table tbody tr:last-child td { border-bottom: none; }
@@ -1681,6 +1689,13 @@ h1 em, h2 em {
   font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.65;
+}
+
+.faq-panel a {
+  color: var(--pink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ── CTA ─────────────────────────────────────────────────────── */

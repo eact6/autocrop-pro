@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#000000">
+  <script>
+    (function () {
+      if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+
+  <title>Crop letterboxes in your browser — AutoCrop Pro</title>
+  <meta name="description" content="Crop black bars and letterboxes from images and videos in your browser. Files never leave this tab. Free, no account. Windows app available for huge batches.">
+  <meta name="author" content="AutoCrop Pro">
+
+  <link rel="canonical" href="https://eact6.github.io/autocrop-pro/cropper/">
+  <link rel="icon" href="../logo-app.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AutoCrop Pro">
+  <meta property="og:title" content="Crop letterboxes in your browser — AutoCrop Pro">
+  <meta property="og:description" content="In-tab photo and video cropper. No uploads, no account. Download the Windows app for 500+ file batches.">
+  <meta property="og:url" content="https://eact6.github.io/autocrop-pro/cropper/">
+  <meta property="og:image" content="https://eact6.github.io/autocrop-pro/logo-app.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Crop letterboxes in your browser — AutoCrop Pro">
+  <meta name="twitter:description" content="Files stay in this tab. Free in-browser cropper plus a Windows app for huge batches.">
+  <meta name="twitter:image" content="https://eact6.github.io/autocrop-pro/logo-app.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="cropper.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AutoCrop Pro Web Cropper",
+    "url": "https://eact6.github.io/autocrop-pro/cropper/",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires a modern browser with Canvas support",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "isAccessibleForFree": true,
+    "license": "https://opensource.org/licenses/MIT",
+    "description": "Client-side browser tool that detects and crops black borders and letterboxes from images and videos. Files never leave the tab.",
+    "featureList": "In-tab processing, histogram crop detection, live preview, batch download, video crop via ffmpeg.wasm"
+  }
+  </script>
+</head>
+<body class="cropper-page">
+
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a href="../" class="logo-link" aria-label="AutoCrop Pro home">
+        <img src="../logo-app.png" alt="AutoCrop Pro logo" class="logo-mark" width="36" height="36">
+        <span class="logo-wordmark">AutoCrop <span class="logo-pro">Pro</span></span>
+      </a>
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <a href="../">Home</a>
+        <a href="./" aria-current="page">Cropper</a>
+        <a href="../#how-it-works">How it works</a>
+        <a href="../#faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle color theme" type="button">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="https://github.com/eact6/autocrop-pro/releases" class="btn btn-primary btn-sm">
+          Download app
+          <span class="btn-icon-wrap" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </span>
+        </a>
+        <button class="icon-btn nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" type="button">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation" hidden>
+    <a href="../">Home</a>
+    <a href="./" aria-current="page">Cropper</a>
+    <a href="../#how-it-works">How it works</a>
+    <a href="../#faq">FAQ</a>
+    <a href="https://github.com/eact6/autocrop-pro/releases" class="btn btn-primary">Download app</a>
+  </nav>
+
+  <div class="cropper-shell">
+    <aside class="cropper-banner" role="note">
+      <p><strong>Files never leave this tab.</strong> Detection runs on your device. Video uses a local FFmpeg engine loaded once from a CDN — nothing is uploaded to AutoCrop Pro.</p>
+      <p class="cropper-banner-app">Need 500 files, TIFF, or huge videos? <a href="https://github.com/eact6/autocrop-pro/releases">Download the Windows app</a></p>
+    </aside>
+
+    <div class="cropper-layout">
+      <section class="bezel-outer cropper-main-bezel">
+        <div class="bezel-inner cropper-main">
+          <div class="cropper-tabs" role="tablist" aria-label="Cropper views">
+            <button type="button" class="cropper-tab is-active" id="tab-queue" role="tab" aria-selected="true" aria-controls="panel-queue">Queue <span class="cropper-count" id="queue-count">0</span></button>
+            <button type="button" class="cropper-tab" id="tab-results" role="tab" aria-selected="false" aria-controls="panel-results">Results <span class="cropper-count" id="results-count">0</span></button>
+          </div>
+
+          <div id="panel-queue" role="tabpanel" class="cropper-panel">
+            <input type="file" id="file-input" class="sr-only" multiple accept=".jpg,.jpeg,.png,.webp,.bmp,.gif,.tif,.tiff,.mp4,.mov,.avi,.mkv,.webm,.flv,.wmv,image/jpeg,image/png,image/webp,image/gif,image/bmp,image/tiff,video/mp4,video/webm,video/quicktime">
+
+            <div id="dropzone" class="cropper-dropzone">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <strong>Drop images or videos here</strong>
+              <span>JPG, PNG, WEBP, GIF, BMP, MP4, MOV, WEBM. Click to browse.</span>
+              <button type="button" class="btn btn-ghost btn-sm" id="btn-browse">Browse files</button>
+            </div>
+
+            <div id="queue-empty-hint" class="cropper-empty" hidden>
+              Queue is empty. Drop files above to start.
+            </div>
+            <ul id="queue-grid" class="cropper-grid" hidden></ul>
+          </div>
+
+          <div id="panel-results" role="tabpanel" class="cropper-panel" hidden>
+            <div class="cropper-results-bar">
+              <p id="results-lead">Processed files stay in this tab until you download them.</p>
+              <button type="button" class="btn btn-accent btn-sm" id="btn-download-all" disabled>Download all (zip)</button>
+            </div>
+            <ul id="results-list" class="cropper-results"></ul>
+            <p id="results-empty" class="cropper-empty">Nothing processed yet. Crop files from the queue.</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="bezel-outer cropper-side-bezel">
+        <div class="bezel-inner cropper-sidebar">
+          <h2>Export settings</h2>
+
+          <div class="cropper-field">
+            <label for="opt-tolerance" class="cropper-label">
+              Detection tolerance
+              <span id="tolerance-value" class="cropper-badge">20%</span>
+            </label>
+            <input type="range" id="opt-tolerance" class="sim-slider" min="0" max="100" value="20" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20">
+            <p class="cropper-help">Higher values treat more dark pixels as border.</p>
+          </div>
+
+          <div class="cropper-field cropper-field-row">
+            <div>
+              <span class="cropper-label" id="padding-label">10px padding</span>
+              <p class="cropper-help">Keep a buffer so captions are not clipped.</p>
+            </div>
+            <button type="button" class="cropper-switch" id="opt-padding" role="switch" aria-checked="false" aria-labelledby="padding-label">
+              <span class="cropper-switch-knob"></span>
+            </button>
+          </div>
+
+          <div class="cropper-field">
+            <label for="opt-format" class="cropper-label">Image output format</label>
+            <select id="opt-format" class="cropper-select">
+              <option value="same" selected>Same as source</option>
+              <option value="png">PNG</option>
+              <option value="jpg">JPEG</option>
+              <option value="webp">WebP</option>
+            </select>
+            <p class="cropper-help">Videos keep MP4 or WebM. GIF exports as PNG.</p>
+          </div>
+
+          <div class="cropper-progress" id="progress-wrap" hidden>
+            <div class="cropper-progress-track" aria-hidden="true">
+              <div class="cropper-progress-fill" id="progress-fill"></div>
+            </div>
+            <p class="cropper-progress-msg" id="progress-msg" aria-live="polite"></p>
+          </div>
+
+          <button type="button" class="btn btn-primary cropper-process" id="btn-process" disabled>
+            <span id="process-label">Process files</span>
+            <span class="btn-icon-wrap" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </span>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <dialog class="cropper-dialog" id="preview-dialog" aria-labelledby="preview-title">
+    <div class="cropper-dialog-bar">
+      <div>
+        <h2 id="preview-title">Preview</h2>
+        <p id="preview-meta" class="cropper-help">Detecting crop…</p>
+      </div>
+      <button type="button" class="icon-btn" id="preview-close" aria-label="Close preview">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="preview-stage" id="preview-stage">
+      <div class="preview-media-wrap" id="preview-media-wrap">
+        <img id="preview-img" alt="Crop preview" hidden>
+        <video id="preview-video" muted playsinline loop hidden></video>
+        <div id="preview-overlay" class="preview-overlay" hidden>
+          <span class="crop-handle tl"></span>
+          <span class="crop-handle tr"></span>
+          <span class="crop-handle bl"></span>
+          <span class="crop-handle br"></span>
+        </div>
+        <div id="preview-loading" class="preview-loading" hidden>
+          <span class="preview-spinner" aria-hidden="true"></span>
+          Detecting crop area…
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toasts" class="cropper-toasts" aria-live="polite"></div>
+
+  <footer class="site-footer cropper-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 AutoCrop Pro · In-browser cropper · files stay in this tab</span>
+      <a href="https://github.com/eact6/autocrop-pro/releases" class="footer-badge">Windows app for huge batches</a>
+    </div>
+  </footer>
+
+  <script type="module" src="cropper-app.js"></script>
+</body>
+</html>
