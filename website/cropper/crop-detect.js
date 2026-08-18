@@ -94,20 +94,32 @@ export function applyPadding(crop, width, height, pad = 10) {
 
 /**
  * Union of content boxes across sampled video frames (safer than last-match).
+ * Ignores empty/black or full-frame fallback frames when valid letterboxed frames exist.
  * @param {CropArea[]} crops
  * @param {number} width
  * @param {number} height
  * @returns {CropArea}
  */
 export function unionCrops(crops, width, height) {
-  if (!crops.length) return { x: 0, y: 0, w: width, h: height };
+  if (!crops || !crops.length) return { x: 0, y: 0, w: width, h: height };
+
+  const valid = crops.filter(
+    (c) => c && typeof c.w === "number" && typeof c.h === "number" && c.w > 0 && c.h > 0
+  );
+  if (!valid.length) return { x: 0, y: 0, w: width, h: height };
+
+  // If some frames detected distinct letterbox borders, filter out full-frame frames (likely fades/transitions)
+  const letterboxed = valid.filter(
+    (c) => !(c.x === 0 && c.y === 0 && c.w === width && c.h === height)
+  );
+  const candidates = letterboxed.length > 0 ? letterboxed : valid;
 
   let minX = Infinity;
   let minY = Infinity;
   let maxX = 0;
   let maxY = 0;
 
-  for (const crop of crops) {
+  for (const crop of candidates) {
     minX = Math.min(minX, crop.x);
     minY = Math.min(minY, crop.y);
     maxX = Math.max(maxX, crop.x + crop.w);
@@ -118,11 +130,16 @@ export function unionCrops(crops, width, height) {
     return { x: 0, y: 0, w: width, h: height };
   }
 
+  const safeX = Math.max(0, Math.min(minX, width - 1));
+  const safeY = Math.max(0, Math.min(minY, height - 1));
+  const safeW = Math.max(1, Math.min(maxX - minX, width - safeX));
+  const safeH = Math.max(1, Math.min(maxY - minY, height - safeY));
+
   return {
-    x: minX,
-    y: minY,
-    w: maxX - minX,
-    h: maxY - minY,
+    x: safeX,
+    y: safeY,
+    w: safeW,
+    h: safeH,
   };
 }
 
@@ -138,9 +155,13 @@ export function evenCrop(crop, width, height) {
   let y = crop.y - (crop.y % 2);
   let w = crop.w - (crop.w % 2);
   let h = crop.h - (crop.h % 2);
-  if (x + w > width) w = Math.max(0, w - 2);
-  if (y + h > height) h = Math.max(0, h - 2);
+
+  if (x < 0) x = 0;
+  if (y < 0) y = 0;
+  if (x + w > width) w = Math.max(2, width - x - ((width - x) % 2));
+  if (y + h > height) h = Math.max(2, height - y - ((height - y) % 2));
   if (w < 2) w = Math.min(2, width - (width % 2));
   if (h < 2) h = Math.min(2, height - (height % 2));
+
   return { x, y, w, h };
 }

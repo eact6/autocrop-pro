@@ -161,6 +161,7 @@ function addFiles(fileList) {
       name: file.name,
       type,
       previewUrl: URL.createObjectURL(file),
+      thumbnailUrl: null,
       crop: null,
       naturalW: 0,
       naturalH: 0,
@@ -191,7 +192,10 @@ function addFiles(fileList) {
 function removeFile(id) {
   if (state.processing) return;
   const item = state.files.find((f) => f.id === id);
-  if (item) URL.revokeObjectURL(item.previewUrl);
+  if (item) {
+    if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+    if (item.thumbnailUrl) URL.revokeObjectURL(item.thumbnailUrl);
+  }
   state.files = state.files.filter((f) => f.id !== id);
   if (state.previewId === id) closePreview();
   render();
@@ -218,11 +222,14 @@ async function ensureCrop(item, onStatus) {
         item.naturalW = result.width;
         item.naturalH = result.height;
       } catch {
-        onStatus?.("Browser could not decode this video — trying FFmpeg cropdetect…");
+        onStatus?.("Analyzing video with FFmpeg engine…");
         const result = await detectVideoCropFfmpeg(item.file, state.options.tolerance, onStatus);
         item.crop = result.crop;
         item.naturalW = result.width;
         item.naturalH = result.height;
+        if (result.thumbnailBlob && !item.thumbnailUrl) {
+          item.thumbnailUrl = URL.createObjectURL(result.thumbnailBlob);
+        }
       }
     }
     item.detectKey = key;
@@ -250,19 +257,34 @@ async function openPreview(id) {
 
   const img = $("preview-img");
   const video = $("preview-video");
-  img.hidden = item.type !== "image";
-  video.hidden = item.type !== "video";
+
   if (item.type === "image") {
+    img.hidden = false;
+    video.hidden = true;
     img.src = item.previewUrl;
-  } else if (video.src !== item.previewUrl) {
-    video.src = item.previewUrl;
-    video.play().catch(() => {});
+  } else if (item.thumbnailUrl) {
+    img.hidden = false;
+    video.hidden = true;
+    img.src = item.thumbnailUrl;
+  } else {
+    img.hidden = true;
+    video.hidden = false;
+    if (video.src !== item.previewUrl) {
+      video.src = item.previewUrl;
+      video.play().catch(() => {});
+    }
   }
 
   if (!dialog.open) dialog.showModal();
 
   try {
-    await ensureCrop(item);
+    await ensureCrop(item, (msg) => {
+      if (state.previewId === id) $("preview-meta").textContent = msg;
+    });
+    if (item.thumbnailUrl && video.hidden) {
+      img.src = item.thumbnailUrl;
+      img.hidden = false;
+    }
     updatePreviewOverlay();
   } catch (err) {
     $("preview-meta").textContent = err.message;
@@ -433,10 +455,11 @@ function renderQueue() {
 
   grid.innerHTML = state.files
     .map((item) => {
+      const src = item.thumbnailUrl || item.previewUrl;
       const media =
-        item.type === "image"
-          ? `<img src="${esc(item.previewUrl)}" alt="">`
-          : `<video src="${esc(item.previewUrl)}" muted playsinline preload="metadata"></video>`;
+        item.type === "image" || item.thumbnailUrl
+          ? `<img src="${esc(src)}" alt="">`
+          : `<video src="${esc(src)}" muted playsinline preload="metadata"></video>`;
       const sub = [
         item.type,
         formatBytes(item.file.size),

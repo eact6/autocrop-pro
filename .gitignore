@@ -63,3 +63,7 @@ website/logo-light.svg
 website/logo-icon.svg
 website/favicon.svg
 
+# Worktrees
+.worktrees/
+.worktree/
+
