@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+// @ts-expect-error JS module without declaration
 import { detectImageCrop, applyPadding, unionCrops, evenCrop } from "../../website/cropper/crop-detect.js";
 
 function makeRgba(

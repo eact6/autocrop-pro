@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tauri dev",
     "dev": "vite",
+    "website": "npx -y serve website -p 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",

@@ -5,17 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Theme (dark default, html.dark for dark mode) ─────────────
   const root = document.documentElement;
   const themeToggle = document.getElementById('theme-toggle');
-  const savedTheme = localStorage.getItem('theme');
 
+  function applyTheme(theme) {
+    const isDark = theme !== 'light';
+    root.classList.toggle('dark', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      themeToggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', isDark ? '#000000' : '#f6f7fb');
+  }
+
+  const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light') {
-    root.classList.remove('dark');
+    applyTheme('light');
   } else {
-    root.classList.add('dark');
+    applyTheme('dark');
   }
 
   themeToggle?.addEventListener('click', () => {
-    root.classList.toggle('dark');
-    localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    const isDark = root.classList.contains('dark');
+    applyTheme(isDark ? 'light' : 'dark');
   });
 
   // ── Mobile nav + overlay ──────────────────────────────────────
