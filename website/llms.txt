@@ -6,7 +6,7 @@ AutoCrop Pro never uploads your media to its servers. The website cropper proces
 
 ## Key facts
 
-- **Web cropper:** https://eact6.github.io/autocrop-pro/cropper/ — client-side, no account, files stay in the tab
+- **Web cropper:** https://autocrop.birol.tech/cropper/ — client-side, no account, files stay in the tab
 - **Desktop app:** Windows 10/11 (MSI + NSIS installers)
 - **Price:** $0 — free forever, MIT License
 - **Privacy:** no cloud upload of user media; desktop app is fully offline
@@ -32,11 +32,11 @@ AutoCrop Pro never uploads your media to its servers. The website cropper proces
 
 ## Links
 
-- Website: https://eact6.github.io/autocrop-pro/
-- Web cropper: https://eact6.github.io/autocrop-pro/cropper/
+- Website: https://autocrop.birol.tech/
+- Web cropper: https://autocrop.birol.tech/cropper/
 - Download: https://github.com/eact6/autocrop-pro/releases
 - Source: https://github.com/eact6/autocrop-pro
-- Pricing: https://eact6.github.io/autocrop-pro/pricing.md
+- Pricing: https://autocrop.birol.tech/pricing.md
 - License: MIT (https://opensource.org/licenses/MIT)
 
 ## Compare to alternatives

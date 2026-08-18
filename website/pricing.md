@@ -16,7 +16,7 @@
 
 ## Web cropper (also free)
 
-https://eact6.github.io/autocrop-pro/cropper/
+https://autocrop.birol.tech/cropper/
 
 Runs entirely in the browser tab. No account. Files are not uploaded to AutoCrop Pro. Use the Windows app for huge batches, TIFF, and unusual video containers.
 

@@ -4,6 +4,8 @@ import { getExtension, fileStem } from "./media.js";
 const FFMPEG_PKG = "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm";
 const FFMPEG_CORE = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm";
 const FFMPEG_UTIL = "https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js";
+// Browsers block cross-origin Worker() (jsDelivr). Host the tiny worker on this origin.
+const CLASS_WORKER_URL = new URL("./ffmpeg/worker.js", import.meta.url).href;
 
 const DESKTOP_VIDEO_HINT =
   "This video could not be processed in the browser. Download the Windows app for large files and formats like WMV, AVI, and MKV.";
@@ -42,11 +44,19 @@ async function loadFfmpeg(onStatus) {
   fetchFileFn = util.fetchFile;
   const ffmpeg = new FFmpeg();
 
-  await ffmpeg.load({
-    coreURL: await util.toBlobURL(`${FFMPEG_CORE}/ffmpeg-core.js`, "text/javascript"),
-    wasmURL: await util.toBlobURL(`${FFMPEG_CORE}/ffmpeg-core.wasm`, "application/wasm"),
-    classWorkerURL: `${FFMPEG_PKG}/worker.js`,
-  });
+  try {
+    await ffmpeg.load({
+      coreURL: await util.toBlobURL(`${FFMPEG_CORE}/ffmpeg-core.js`, "text/javascript"),
+      wasmURL: await util.toBlobURL(`${FFMPEG_CORE}/ffmpeg-core.wasm`, "application/wasm"),
+      classWorkerURL: CLASS_WORKER_URL,
+    });
+  } catch (err) {
+    const msg = String(err?.message || err);
+    if (/worker/i.test(msg) || /securityerror/i.test(msg)) {
+      throw new Error("Could not start the in-browser video engine. Try a refresh, or use the Windows app.");
+    }
+    throw err;
+  }
 
   ffmpegInstance = ffmpeg;
   return ffmpeg;

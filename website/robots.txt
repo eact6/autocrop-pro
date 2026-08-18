@@ -21,4 +21,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://eact6.github.io/autocrop-pro/sitemap.xml
+Sitemap: https://autocrop.birol.tech/sitemap.xml
